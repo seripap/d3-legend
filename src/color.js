@@ -31,7 +31,7 @@ module.exports = function(){
 
 
       var cell = legendG.selectAll("." + classPrefix + "cell").data(type.data),
-        cellEnter = cell.enter().append("g", ".cell").attr("class", classPrefix + "cell").style("opacity", 1e-6),
+        cellEnter = cell.enter().append("g", ".cell").attr("class", classPrefix + "cell").style("opacity", 1),
         shapeEnter = cellEnter.append(shape).attr("class", classPrefix + "swatch"),
         shapes = cell.select("g." + classPrefix + "cell " + shape);
 
@@ -45,8 +45,8 @@ module.exports = function(){
       helper.d3_addText(legendG, cellEnter, type.labels, classPrefix)
 
       // sets placement
-      var text = cell.select("text"),
-        shapeSize = shapes[0].map( function(d){ return d.getBBox(); });
+      var text = cell.select("text");//,
+        // shapeSize = shapes[0].map( function(d){ return d.getBBox(); });
 
       //sets scale
       //everything is fill except for line which is stroke,
@@ -64,17 +64,17 @@ module.exports = function(){
       textTrans,
       textAlign = (labelAlign == "start") ? 0 : (labelAlign == "middle") ? 0.5 : 1;
 
-      //positions cells and text
-      if (orient === "vertical"){
-        cellTrans = function(d,i) { return "translate(0, " + (i * (shapeSize[i].height + shapePadding)) + ")"; };
-        textTrans = function(d,i) { return "translate(" + (shapeSize[i].width + shapeSize[i].x +
-          labelOffset) + "," + (shapeSize[i].y + shapeSize[i].height/2 + 5) + ")"; };
+      // //positions cells and text
+      // if (orient === "vertical"){
+        cellTrans = function(d,i) { return "translate(0, " + (i * (20  + shapePadding)) + ")"; };
+        textTrans = function(d,i) { return "translate(" + (17 + 2 +
+          labelOffset) + "," + (1 + 12/2 + 5) + ")"; };
 
-      } else if (orient === "horizontal"){
-        cellTrans = function(d,i) { return "translate(" + (i * (shapeSize[i].width + shapePadding)) + ",0)"; }
-        textTrans = function(d,i) { return "translate(" + (shapeSize[i].width*textAlign  + shapeSize[i].x) +
-          "," + (shapeSize[i].height + shapeSize[i].y + labelOffset + 8) + ")"; };
-      }
+      // } else if (orient === "horizontal"){
+      //   cellTrans = function(d,i) { return "translate(" + (i * (shapeSize[i].width + shapePadding)) + ",0)"; }
+      //   textTrans = function(d,i) { return "translate(" + (shapeSize[i].width*textAlign  + shapeSize[i].x) +
+      //     "," + (shapeSize[i].height + shapeSize[i].y + labelOffset + 8) + ")"; };
+      // }
 
       helper.d3_placement(orient, cell, cellTrans, text, textTrans, labelAlign);
       helper.d3_title(svg, legendG, title, classPrefix);
